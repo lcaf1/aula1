@@ -8,6 +8,7 @@ public class Aluno {
     private String matricula;
     private Date dataNascimento;
     private String sexo;
+    private String email;
 
     public Integer getId() {
         return id;
@@ -47,5 +48,23 @@ public class Aluno {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    /**
+     * get field
+     *
+     * @return email
+     */
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * set field
+     *
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

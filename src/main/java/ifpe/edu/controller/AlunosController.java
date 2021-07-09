@@ -1,7 +1,7 @@
 package ifpe.edu.controller;
 
 import ifpe.edu.entrity.Aluno;
-import ifpe.edu.services.AlunosServices;
+import ifpe.edu.services.AlunosDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AlunosController {
 
-    private final AlunosServices alunosServices;
+    private final AlunosDAO alunosDAO;
 
 
     @GetMapping("/cadastro")
     public String getHomeDefault(){
         Aluno aluno = new Aluno();
-        alunosServices.save(aluno);
+        alunosDAO.save(aluno);
         return "alunos/home";
     }
 }

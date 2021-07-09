@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Repository
-public interface AlunosServices extends CrudRepository<Aluno, Integer> {
+public interface AlunosDAO extends CrudRepository<Aluno, Integer> {
 
 }
