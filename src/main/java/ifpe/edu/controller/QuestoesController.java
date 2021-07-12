@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/questoes")
 public class QuestoesController {
+
+
+
     @GetMapping("/cadastro")
     public String getHomeDefault(){return "questoes/home";}
 }
