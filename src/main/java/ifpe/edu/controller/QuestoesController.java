@@ -10,6 +10,5 @@ public class QuestoesController {
 
 
 
-    @GetMapping("/cadastro")
-    public String getHomeDefault(){return "questoes/home";}
+
 }

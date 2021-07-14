@@ -9,7 +9,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProfessorController{
 
 
-    @GetMapping("/cadastro")
-    public String getHomeDefault(){return "professor/home";}
-
 }

@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,10 +16,11 @@ public class Turma implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer turmaId;
 
-  //  private List<Disciplina> disciplinas;
-  //  private List<Aluno> alunos;
+    private String nome;
+
+
 
 
 }

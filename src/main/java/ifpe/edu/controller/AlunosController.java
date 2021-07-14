@@ -1,13 +1,15 @@
 package ifpe.edu.controller;
 
+import ifpe.edu.controller.dto.AlunoDTO;
 import ifpe.edu.model.Aluno;
 import ifpe.edu.services.AlunosService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -18,48 +20,46 @@ public class AlunosController {
     private final AlunosService service;
 
 
-    @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Aluno> getAlunoById( @PathVariable Integer id) {
+    @PostMapping("/")
+    public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "redirect:/telaAluno";
+        }
+        service.salvarAluno(dto);
+        return "redirect:/telaAluno";
+    }
+
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Aluno aluno = service.buscarAluno(id);
-        return ResponseEntity.ok(aluno);
+        model.addAttribute("aluno", aluno);
+        return "redirect:/telaAluno";
     }
 
 
-    @GetMapping(value = "/todos", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Aluno> getAll() {
+    @PutMapping("/update/{id}")
+    public String updateAluno(@PathVariable("id") Integer id, @Valid AlunoDTO dto,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            dto.setAlunoId(id);
+            return "update-user";
+        }
 
-        return new ResponseEntity(service.buscarTodos(), HttpStatus.OK);
+        service.salvarAluno(dto);
+        return "redirect:/index";
     }
 
-
-    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity addAluno(@RequestBody Aluno aluno) {
-
-        service.salvarAluno(aluno);
-        return new ResponseEntity(aluno,HttpStatus.CREATED);
-
-    }
-
-
-    @DeleteMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Void> deleteAluno (@PathVariable Integer id) {
-
-        Aluno aluno = new Aluno();
-        aluno = service.buscarAluno(id);
+    @GetMapping("/delete/{id}")
+    public String deleteAluno(@PathVariable("id") Integer id, Model model) {
+        Aluno aluno = service.buscarAluno(id);
+        if(aluno == null){
+            throw  new IllegalArgumentException("Invalid aluno Id:" + id);
+        }
         service.deleteAluno(id);
-        return ResponseEntity.noContent().build();
-
+        return "redirect:/telaAluno";
     }
 
 
-    @PutMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-            MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Aluno> putSaveBaixa(@RequestBody Aluno aluno) {
 
-        service.salvarAluno(aluno);
-        return new ResponseEntity(aluno,HttpStatus.CREATED);
-
-    }
 }

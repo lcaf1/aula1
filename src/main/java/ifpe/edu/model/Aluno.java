@@ -3,11 +3,9 @@ package ifpe.edu.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,12 +16,16 @@ public class Aluno implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer alunoId;
     private String nome;
     private String matricula;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
     private String sexo;
     private String email;
+
+    @JoinColumn(name ="turmaId")
+    @ManyToOne(targetEntity = Turma.class)
+    private Turma turma;
 
 }

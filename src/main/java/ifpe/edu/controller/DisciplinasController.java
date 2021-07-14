@@ -7,6 +7,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/disciplinas")
 public class DisciplinasController {
-    @GetMapping("/cadastro")
-    public String getHomeDefault(){return "disciplinas/home";}
+
 }

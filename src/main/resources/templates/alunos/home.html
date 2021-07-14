@@ -1,10 +1,91 @@
-<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
 </head>
 <body>
- Alunos
+<div class="panel panel-primary">
+    <form id="alunoForm" action="/alunos/" method="post" th:object="${aluno}">
+     <div class="panel panel-default">
+        <h1 class="text-center">CADASTRO DE ALUNOS</h1>
+        <panel-body>
+            <input type="hidden"/>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="nome">Nome completo: </label>
+                    <input type="text" class="form-control" id="nome"  name="nome"/> <br/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="matricula">Matrícula</label>
+                    <input type="text"  class="form-control" id="matricula"  name="matricula"/> <br/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sexo">Sexo:</label> <br/>
+                    <select id="sexo" name="sexo" class="form-control">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" class="form-control" id="dataNascimento"  name="dataNascimento"/> <br/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="dataNascimento"> E-mail:</label>
+                    <input type="text" class="form-control" id="email" name="email"/> <br/>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="turmaId">Turma</label>
+                    <select  form="alunoForm" name="turmaId" id="turmaId" class="form-control">
+                        <option  th:each="turma : ${turmas}" th:value="${turma.turmaId}" th:text="${turma.nome}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="reset"  class="btn btn-secondary">Limpar</button>
+            </div>
+
+        </panel-body>
+     </div>
+    </form>
+</div>
+
+<div th:switch="${alunos}">
+    <h2>Alunos</h2>
+    <table class="table .table-hover">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Sexo</th>
+            <th>Dt.Nascimento</th>
+            <th>Email</th>
+            <th>Turma</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="aluno : ${alunos}">
+            <td th:text="${aluno.nome}"></td>
+            <td th:text="${aluno.matricula}"></td>
+            <td th:text="${aluno.sexo}"></td>
+            <td th:text="${aluno.dataNascimento}"></td>
+            <td th:text="${aluno.email}"></td>
+            <td th:text="${aluno.turma.nome}"></td>
+            <td><a th:href="@{alunos/edit/{id}(id=${aluno.alunoId})}" class="btn btn-warning " >Edit</a>
+                <a th:href="@{/alunos/delete/{id}(id=${aluno.alunoId})}" class="btn btn-danger">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
 </body>
 </html>

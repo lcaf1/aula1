@@ -16,7 +16,7 @@ public class Disciplina implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long disciplinaId;
     private String nome;
     private Integer cargaHorario;
     private Professor professor;
