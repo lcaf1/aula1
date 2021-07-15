@@ -23,6 +23,7 @@ public class AlunosService {
 
     public void salvarAluno(AlunoDTO alunoDto){
       Aluno aluno = new Aluno();
+      aluno.setAlunoId(alunoDto.getAlunoId());
       aluno.setDataNascimento(alunoDto.getDataNascimento());
       aluno.setEmail(alunoDto.getEmail());
       aluno.setMatricula(alunoDto.getMatricula());

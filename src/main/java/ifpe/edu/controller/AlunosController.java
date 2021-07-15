@@ -3,6 +3,7 @@ package ifpe.edu.controller;
 import ifpe.edu.controller.dto.AlunoDTO;
 import ifpe.edu.model.Aluno;
 import ifpe.edu.services.AlunosService;
+import ifpe.edu.services.TurmaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,46 +18,35 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AlunosController {
 
-    private final AlunosService service;
-
+    private final AlunosService Aservice;
+    private final TurmaService Tservice;
 
     @PostMapping("/")
     public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "redirect:/telaAluno";
         }
-        service.salvarAluno(dto);
+        Aservice.salvarAluno(dto);
         return "redirect:/telaAluno";
     }
 
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Aluno aluno = service.buscarAluno(id);
+        Aluno aluno = Aservice.buscarAluno(id);
         model.addAttribute("aluno", aluno);
-        return "redirect:/telaAluno";
+        model.addAttribute("turmas", Tservice.buscarTodos());
+        return "alunos/home";
     }
 
-
-    @PutMapping("/update/{id}")
-    public String updateAluno(@PathVariable("id") Integer id, @Valid AlunoDTO dto,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            dto.setAlunoId(id);
-            return "update-user";
-        }
-
-        service.salvarAluno(dto);
-        return "redirect:/index";
-    }
 
     @GetMapping("/delete/{id}")
     public String deleteAluno(@PathVariable("id") Integer id, Model model) {
-        Aluno aluno = service.buscarAluno(id);
+        Aluno aluno = Aservice.buscarAluno(id);
         if(aluno == null){
             throw  new IllegalArgumentException("Invalid aluno Id:" + id);
         }
-        service.deleteAluno(id);
+        Aservice.deleteAluno(id);
         return "redirect:/telaAluno";
     }
 

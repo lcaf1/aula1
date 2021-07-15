@@ -25,6 +25,8 @@ public class HomeController {
     public String getAlunosDefault(Model model) {
         model.addAttribute("alunos", Aservice.buscarTodos());
         model.addAttribute("turmas", Tservice.buscarTodos());
+        Aluno aluno = new Aluno();
+        model.addAttribute("aluno",aluno);
         return "alunos/home";}
 
     @GetMapping("/telaDisciplinas")

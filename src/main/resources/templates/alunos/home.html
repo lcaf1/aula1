@@ -6,24 +6,28 @@
 
 </head>
 <body>
-<div class="panel panel-primary">
+</body>
+</html>
+
+</br></br></br>
+<div class="panel panel-primary" style="margin:15px;">
     <form id="alunoForm" action="/alunos/" method="post" th:object="${aluno}">
      <div class="panel panel-default">
         <h1 class="text-center">CADASTRO DE ALUNOS</h1>
         <panel-body>
-            <input type="hidden"/>
+            <input type="hidden" name="alunoId" th:field="*{alunoId}"/>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="nome">Nome completo: </label>
-                    <input type="text" class="form-control" id="nome"  name="nome"/> <br/>
+                    <label for="nome">Nome completo </label>
+                    <input type="text" class="form-control" id="nome"  th:field="*{nome}" name="nome"/> <br/>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="matricula">Matrícula</label>
-                    <input type="text"  class="form-control" id="matricula"  name="matricula"/> <br/>
+                    <input type="text"  class="form-control" id="matricula" th:field="*{matricula}" name="matricula"/> <br/>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="sexo">Sexo:</label> <br/>
-                    <select id="sexo" name="sexo" class="form-control">
+                    <label for="sexo">Sexo</label> <br/>
+                    <select id="sexo" name="sexo" type="radio" th:field="*{sexo}" class="form-control">
                         <option value="Masculino">Masculino</option>
                         <option value="Feminino">Feminino</option>
                         <option value="Outros">Outros</option>
@@ -32,17 +36,17 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="dataNascimento">Data de Nascimento:</label>
-                    <input type="date" class="form-control" id="dataNascimento"  name="dataNascimento"/> <br/>
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    <input type="date" class="form-control" id="dataNascimento" th:field="*{dataNascimento}"  name="dataNascimento"/> <br/>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="dataNascimento"> E-mail:</label>
-                    <input type="text" class="form-control" id="email" name="email"/> <br/>
+                    <label for="dataNascimento"> E-mail</label>
+                    <input type="text" class="form-control" th:field="*{email}" id="email" name="email"/> <br/>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="turmaId">Turma</label>
                     <select  form="alunoForm" name="turmaId" id="turmaId" class="form-control">
-                        <option  th:each="turma : ${turmas}" th:value="${turma.turmaId}" th:text="${turma.nome}">
+                        <option  th:each="turma : ${turmas}"  th:field="*{turma.turmaId}" th:value="${turma.turmaId}" th:text="${turma.nome}">
                         </option>
                     </select>
                 </div>
