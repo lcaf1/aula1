@@ -1,6 +1,5 @@
 package ifpe.edu.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,8 +23,9 @@ public class Aluno implements Serializable {
     private String sexo;
     private String email;
 
-    @JoinColumn(name ="turmaId")
+    @JoinColumn(name = "turmaId")
     @ManyToOne(targetEntity = Turma.class)
     private Turma turma;
+
 
 }

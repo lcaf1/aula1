@@ -12,15 +12,11 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-public class Turma implements Serializable {
+public class Turma  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer turmaId;
-
     private String nome;
-
-
-
 
 }

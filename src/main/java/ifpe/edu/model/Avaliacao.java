@@ -1,5 +1,6 @@
 package ifpe.edu.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,13 +12,13 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class Disciplina implements Serializable {
+public class Avaliacao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private Integer cargaHorario;
-    private Professor professor;
+    private Integer avaliacaoId;
+    private Aluno aluno;
+    private Integer nota;
+    private Prova prova;
 
 }

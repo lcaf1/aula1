@@ -8,16 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
-public class Disciplina implements Serializable {
+public class Prova implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private Integer cargaHorario;
-    private Professor professor;
+    private Integer provaId;
+    private List<Questao> listaQuestoes;
+    private Disciplina disciplina;
+
 
 }

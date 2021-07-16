@@ -11,12 +11,11 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Entity
 public class Professor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long professorId;
+    private Long id;
     private String nome;
     private String email;
 
