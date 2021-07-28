@@ -21,19 +21,19 @@ public class AlunosController {
     private final AlunosService Aservice;
     private final TurmaService Tservice;
 
-    @GetMapping("/")
-    public String getAlunosDefault(Model model) {
-        model.addAttribute("alunos", Aservice.buscarTodos());
-        model.addAttribute("turmas", Tservice.buscarTodos());
-        Aluno aluno = new Aluno();
-        model.addAttribute("aluno",aluno);
-        return "alunos/home";}
+//    @GetMapping("/")
+//    public String getAlunosDefault(Model model) {
+//        model.addAttribute("alunos", Aservice.buscarTodos());
+//        model.addAttribute("turmas", Tservice.buscarTodos());
+//        Aluno aluno = new Aluno();
+//        model.addAttribute("aluno",aluno);
+//        return "alunos/home";}
 
     @PostMapping("/add")
     public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
-            return "alunos/home";
+            return "redirect:/alunos";
         }
         Aservice.salvarAluno(dto);
         return "redirect:/alunos";

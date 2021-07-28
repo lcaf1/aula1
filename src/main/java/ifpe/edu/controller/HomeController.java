@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 
-//    private final AlunosService Aservice;
-//    private final TurmaService  Tservice;
+    private final AlunosService Aservice;
+    private final TurmaService  Tservice;
 
     @GetMapping("/home")
     public String getHome(){return "home";}
@@ -21,13 +21,13 @@ public class HomeController {
     @GetMapping("/")
     public String getHomeDefault(){return "home";}
 
-//    @GetMapping("/telaAluno")
-//    public String getAlunosDefault(Model model) {
-//        model.addAttribute("alunos", Aservice.buscarTodos());
-//        model.addAttribute("turmas", Tservice.buscarTodos());
-//        Aluno aluno = new Aluno();
-//        model.addAttribute("aluno",aluno);
-//        return "alunos/home";}
+    @GetMapping("/telaAluno")
+    public String getAlunosDefault(Model model) {
+        model.addAttribute("alunos", Aservice.buscarTodos());
+        model.addAttribute("turmas", Tservice.buscarTodos());
+        Aluno aluno = new Aluno();
+        model.addAttribute("aluno",aluno);
+        return "alunos/home";}
 
     @GetMapping("/telaDisciplinas")
     public String getDisciplinasDefault(){return "disciplinas/home";}
