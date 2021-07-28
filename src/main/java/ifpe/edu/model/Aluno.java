@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +27,5 @@ public class Aluno implements Serializable {
     @JoinColumn(name = "turmaId")
     @ManyToOne(targetEntity = Turma.class)
     private Turma turma;
-
 
 }

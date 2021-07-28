@@ -8,7 +8,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/questoes")
 public class QuestoesController {
 
-
-
-
 }

@@ -6,7 +6,7 @@
     <title></title>
 </head>
 <body>
-<form style="margin: 14px" id="alunoForm" action="#" th:action="@{/alunos/add}" method="post" th:object="${aluno}" class="form">
+<form style="margin: 14px" id="alunoForm" action="#" th:action="@{/add/}" method="post" th:object="${aluno}" class="form">
     <div class="panel panel-default">
         <h1 class="text-center">CADASTRO DE ALUNOS</h1>
         <input type="hidden" name="alunoId" th:field="*{alunoId}"/>
@@ -81,8 +81,8 @@
             <td th:text="${aluno.dataNascimento}"></td>
             <td th:text="${aluno.email}"></td>
             <td th:text="${aluno.turma.nome}"></td>
-            <td><a th:href="@{/alunos/edit/{id}(id=${aluno.alunoId})}" class="btn btn-warning">Edit</a>
-                <a th:href="@{/alunos/delete/{id}(id=${aluno.alunoId})}" class="btn btn-danger">Delete</a></td>
+            <td><a th:href="@{edit/{id}(id=${aluno.alunoId})}" class="btn btn-warning " >Edit</a>
+                <a th:href="@{delete/{id}(id=${aluno.alunoId})}" class="btn btn-danger">Delete</a></td>
         </tr>
         </tbody>
     </table>

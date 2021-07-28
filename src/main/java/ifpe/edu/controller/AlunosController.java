@@ -21,15 +21,23 @@ public class AlunosController {
     private final AlunosService Aservice;
     private final TurmaService Tservice;
 
-    @PostMapping("/")
+    @GetMapping("/")
+    public String getAlunosDefault(Model model) {
+        model.addAttribute("alunos", Aservice.buscarTodos());
+        model.addAttribute("turmas", Tservice.buscarTodos());
+        Aluno aluno = new Aluno();
+        model.addAttribute("aluno",aluno);
+        return "alunos/home";}
+
+    @PostMapping("/add")
     public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "redirect:/telaAluno";
+            System.out.println(result.getAllErrors());
+            return "alunos/home";
         }
         Aservice.salvarAluno(dto);
-        return "redirect:/telaAluno";
+        return "redirect:/alunos";
     }
-
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -39,7 +47,6 @@ public class AlunosController {
         return "alunos/home";
     }
 
-
     @GetMapping("/delete/{id}")
     public String deleteAluno(@PathVariable("id") Integer id, Model model) {
         Aluno aluno = Aservice.buscarAluno(id);
@@ -47,9 +54,7 @@ public class AlunosController {
             throw  new IllegalArgumentException("Invalid aluno Id:" + id);
         }
         Aservice.deleteAluno(id);
-        return "redirect:/telaAluno";
+        return "alunos/home";
     }
-
-
 
 }

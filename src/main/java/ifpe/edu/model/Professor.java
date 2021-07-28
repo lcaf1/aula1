@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@Entity
 public class Professor implements Serializable {
 
     @Id
@@ -18,6 +19,4 @@ public class Professor implements Serializable {
     private Long id;
     private String nome;
     private String email;
-
-
 }
