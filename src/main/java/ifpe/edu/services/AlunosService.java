@@ -19,22 +19,22 @@ public class AlunosService {
     private AlunosDAO aRepository;
 
     @Autowired
-    private TurmaDAO  tRepository;
+    private TurmaDAO tRepository;
 
-    public void salvarAluno(AlunoDTO alunoDto){
-      Aluno aluno = new Aluno();
-      aluno.setAlunoId(alunoDto.getAlunoId());
-      aluno.setDataNascimento(alunoDto.getDataNascimento());
-      aluno.setEmail(alunoDto.getEmail());
-      aluno.setMatricula(alunoDto.getMatricula());
-      aluno.setNome(alunoDto.getNome());
-      aluno.setSexo(alunoDto.getSexo());
-      Optional p = tRepository.findById(alunoDto.getTurmaId());
-      if(!p.isPresent()){
-          throw new EntityNotFoundException();
-      }
-      Turma t = (Turma) p.get();
-      aluno.setTurma(t);
+    public void salvarAluno(AlunoDTO alunoDto) {
+        Aluno aluno = new Aluno();
+        aluno.setAlunoId(alunoDto.getAlunoId());
+        aluno.setDataNascimento(alunoDto.getDataNascimento());
+        aluno.setEmail(alunoDto.getEmail());
+        aluno.setMatricula(alunoDto.getMatricula());
+        aluno.setNome(alunoDto.getNome());
+        aluno.setSexo(alunoDto.getSexo());
+        Optional p = tRepository.findById(alunoDto.getTurmaId());
+        if (!p.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+        Turma t = (Turma) p.get();
+        aluno.setTurma(t);
         aRepository.save(aluno);
     }
 
@@ -44,11 +44,18 @@ public class AlunosService {
         return aluno;
     }
 
-    public List<Aluno> buscarTodos(){
+    public List<Aluno> buscarTodos() {
         return (List<Aluno>) aRepository.findAll();
     }
 
-    public void deleteAluno(Integer id){
+    public void deleteAluno(Integer id) {
         aRepository.deleteById(id);
+    }
+
+    public List<Aluno> findByTurmaId(Integer id) {
+        final List<Aluno> alunos = aRepository.findByTurma(id);
+        if (alunos.isEmpty())
+            throw new IllegalArgumentException("Invalid turma Id:" + id);
+        return alunos;
     }
 }

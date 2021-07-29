@@ -2,10 +2,11 @@ package ifpe.edu.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +27,7 @@ public class Aluno implements Serializable {
 
     @JoinColumn(name = "turmaId")
     @ManyToOne(targetEntity = Turma.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Turma turma;
 
 }

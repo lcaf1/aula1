@@ -33,10 +33,10 @@ public class AlunosController {
     public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
-            return "redirect:/alunos";
+            return "redirect:/telaAluno";
         }
         Aservice.salvarAluno(dto);
-        return "redirect:/alunos";
+        return "redirect:/telaAluno";
     }
 
     @GetMapping("/edit/{id}")
@@ -54,7 +54,7 @@ public class AlunosController {
             throw  new IllegalArgumentException("Invalid aluno Id:" + id);
         }
         Aservice.deleteAluno(id);
-        return "alunos/home";
+        return "redirect:/telaAluno";
     }
 
 }

@@ -1,14 +1,16 @@
 package ifpe.edu.services;
 
+import ifpe.edu.controller.dto.TurmaDTO;
 import ifpe.edu.model.Aluno;
 import ifpe.edu.model.Turma;
 import ifpe.edu.repository.TurmaDAO;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TurmaService {
@@ -16,13 +18,31 @@ public class TurmaService {
     @Autowired
     private TurmaDAO repository;
 
-    public void addTurma(Turma t){
-        repository.save(t);
+    public void addTurma(@Valid TurmaDTO dto) {
+        Turma turma = new Turma();
+        turma.setTurmaId(dto.getTurmaId());
+        turma.setNome(dto.getNome());
+        repository.save(turma);
     }
 
-
-    public List<Turma> buscarTodos(){
+    public List<Turma> buscarTodos() {
         return (List<Turma>) repository.findAll();
     }
 
+    public void deleteTurma(Integer id) {
+        final Optional<Turma> turma = getTurma(id);
+        if (turma.isPresent()) {
+            repository.deleteById(id);
+        }
+    }
+
+    private Optional<Turma> getTurma(Integer id) {
+        return repository.findById(id);
+    }
+
+    public Turma buscarTurma(Integer id) {
+        Optional<Turma> optional = repository.findById(id);
+        Turma turma = (Turma) optional.get();
+        return turma;
+    }
 }
