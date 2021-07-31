@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<div th:if="${actualData}">
+  <p th:text="${actualData}"></p>
+</div>
+<!-- Instead of div below, you could supply a modal and pice of javascript opening it -->
+<div th:if="${errorData}">
+  <h3>Message:</h3>
+  <p th:text="${errorData}"></p>
+  <form action="http://localhost:8080/alunos/busca">
+    <input type="submit" value="Voltar" />
+  </form>
+</div>
+</body>
+</html>
+

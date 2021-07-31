@@ -1,12 +1,15 @@
 package ifpe.edu.services;
 
 import ifpe.edu.controller.dto.AlunoDTO;
+import ifpe.edu.controller.dto.BuscarAlunoDTO;
 import ifpe.edu.model.Aluno;
 import ifpe.edu.model.Turma;
 import ifpe.edu.repository.AlunosDAO;
 import ifpe.edu.repository.TurmaDAO;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -16,12 +19,18 @@ import java.util.Optional;
 public class AlunosService {
 
     @Autowired
-    private AlunosDAO aRepository;
+    private AlunosDAO alunoRepository;
 
     @Autowired
     private TurmaDAO tRepository;
+    @Autowired
+    private TurmaService turmaService;
 
-    public void salvarAluno(AlunoDTO alunoDto) {
+    @SneakyThrows
+    public void salvarAluno(AlunoDTO alunoDto){
+        if(turmaService.quantidadeAlunos(alunoDto.getTurmaId())){
+            throw new Exception("Limiti de alunos atingido!");
+        }
         Aluno aluno = new Aluno();
         aluno.setAlunoId(alunoDto.getAlunoId());
         aluno.setDataNascimento(alunoDto.getDataNascimento());
@@ -35,27 +44,47 @@ public class AlunosService {
         }
         Turma t = (Turma) p.get();
         aluno.setTurma(t);
-        aRepository.save(aluno);
+        alunoRepository.save(aluno);
     }
 
     public Aluno buscarAluno(Integer id) {
-        Optional<Aluno> optional = aRepository.findById(id);
+        Optional<Aluno> optional = alunoRepository.findById(id);
         Aluno aluno = (Aluno) optional.get();
         return aluno;
     }
 
     public List<Aluno> buscarTodos() {
-        return (List<Aluno>) aRepository.findAll();
+        return (List<Aluno>) alunoRepository.findAll();
     }
 
     public void deleteAluno(Integer id) {
-        aRepository.deleteById(id);
+        alunoRepository.deleteById(id);
     }
 
-    public List<Aluno> findByTurmaId(Integer id) {
-        final List<Aluno> alunos = aRepository.findByTurma(id);
-        if (alunos.isEmpty())
-            throw new IllegalArgumentException("Invalid turma Id:" + id);
-        return alunos;
+    public Integer countByTurmaId(Turma turma) {
+        return alunoRepository.countByTurma(turma);
     }
+
+    public String getString(BuscarAlunoDTO dto, Model model, Aluno aluno) {
+        if (dto.getEmail() != null || dto.getNome() != null || dto.getMatricula() != null) {
+            try {
+                model.addAttribute("aluno", aluno);
+                model.addAttribute("alunos", findAlunoByFilter(dto));
+                return "alunos/buscaAlunos";
+            } catch (Exception e) {
+                model.addAttribute("errorData", e.getMessage());
+            }
+            return "error/view";
+        }
+        return null;
+    }
+
+    public List<Aluno> findAlunoByFilter(BuscarAlunoDTO dto) throws Exception {
+        final List<Aluno> aluno = alunoRepository.findByMatriculaOrEmailOrNomeLike(dto.getMatricula(), dto.getEmail(), dto.getNome());
+        if (aluno.isEmpty())
+            throw new Exception("Aluno não encontrado!");
+        return aluno;
+    }
+
+
 }

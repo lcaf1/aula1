@@ -18,5 +18,5 @@ public class Turma  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer turmaId;
     private String nome;
-
+    private Integer quantidadeAlunos;
 }

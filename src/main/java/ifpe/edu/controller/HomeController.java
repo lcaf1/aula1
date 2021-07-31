@@ -41,11 +41,9 @@ public class HomeController {
 
     @GetMapping("/telaTurma")
     public String getTurmasDefault(Model model){
-        //model.addAttribute("alunos", alunosService.buscarTodos());
         model.addAttribute("turmas", turmaService.buscarTodos());
         Turma turma = new Turma();
         model.addAttribute("turma",turma);
         return "turmas/home";
     }
-
 }

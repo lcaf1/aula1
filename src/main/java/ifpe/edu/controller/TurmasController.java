@@ -30,15 +30,15 @@ public class TurmasController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String editTurma(@PathVariable("id") Integer id, Model model) {
         Turma turma = service.buscarTurma(id);
         model.addAttribute("turma", turma);
         return "turmas/home";
     }
-
     @GetMapping("/delete/{id}")
-    public String deleteTurma(@PathVariable("id") Integer id, Model model){
+    public String deleteTurme(@PathVariable("id") Integer id, Model model){
         service.deleteTurma(id);
         return "redirect:/telaTurma";
     }
+
 }

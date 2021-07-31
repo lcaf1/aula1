@@ -1,5 +1,6 @@
 package ifpe.edu.controller;
 
+import ifpe.edu.controller.dto.BuscarAlunoDTO;
 import ifpe.edu.controller.dto.AlunoDTO;
 import ifpe.edu.model.Aluno;
 import ifpe.edu.services.AlunosService;
@@ -18,16 +19,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AlunosController {
 
-    private final AlunosService Aservice;
-    private final TurmaService Tservice;
-
-//    @GetMapping("/")
-//    public String getAlunosDefault(Model model) {
-//        model.addAttribute("alunos", Aservice.buscarTodos());
-//        model.addAttribute("turmas", Tservice.buscarTodos());
-//        Aluno aluno = new Aluno();
-//        model.addAttribute("aluno",aluno);
-//        return "alunos/home";}
+    private final AlunosService alunosService;
+    private final TurmaService turmaService;
 
     @PostMapping("/add")
     public String addAluno(@Valid AlunoDTO dto, BindingResult result, Model model) {
@@ -35,26 +28,37 @@ public class AlunosController {
             System.out.println(result.getAllErrors());
             return "redirect:/telaAluno";
         }
-        Aservice.salvarAluno(dto);
+        alunosService.salvarAluno(dto);
         return "redirect:/telaAluno";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Aluno aluno = Aservice.buscarAluno(id);
+        Aluno aluno = alunosService.buscarAluno(id);
         model.addAttribute("aluno", aluno);
-        model.addAttribute("turmas", Tservice.buscarTodos());
+        model.addAttribute("turmas", turmaService.buscarTodos());
         return "alunos/home";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteAluno(@PathVariable("id") Integer id, Model model) {
-        Aluno aluno = Aservice.buscarAluno(id);
-        if(aluno == null){
-            throw  new IllegalArgumentException("Invalid aluno Id:" + id);
+    public String deleteAluno(@PathVariable("id") Integer id, Model model) throws Exception {
+        Aluno aluno = alunosService.buscarAluno(id);
+        if (aluno == null) {
+            throw new Exception("Invalid aluno Id:" + id);
         }
-        Aservice.deleteAluno(id);
+        alunosService.deleteAluno(id);
         return "redirect:/telaAluno";
+    }
+
+    @GetMapping("/buscarAluno")
+    public String buscarAlunoByFilter(@Valid BuscarAlunoDTO dto, BindingResult result, Model model) {
+        Aluno aluno = new Aluno();
+        String alunoView = alunosService.getString(dto, model, aluno);
+        if (alunoView != null)
+            return alunoView;
+        model.addAttribute("alunos", alunosService.buscarTodos());
+        model.addAttribute("aluno", aluno);
+        return "alunos/buscaAlunos";
     }
 
 }
